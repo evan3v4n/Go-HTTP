@@ -52,5 +52,6 @@ Successful output from `go test` looks similar to:
 ok   github.com/evan3v4n/Go-HTTP/internal/logic 0.18s
 ```
 
-The tests log metrics like `request distribution: [100 101 99]` to help assess
-balancing effectiveness.
+The tests log metrics like `request distribution: [100 101 99]` and
+`active connections during request: 1` to help assess balancing
+effectiveness.

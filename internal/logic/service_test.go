@@ -41,16 +41,20 @@ func TestActiveConnections(t *testing.T) {
 	}
 	backend := lb.Backends()[0]
 
-	go makeRequest(lb)
-	time.Sleep(50 * time.Millisecond)
-	if c := atomic.LoadInt32(&backend.active); c != 1 {
-		t.Fatalf("expected active=1 during request, got %d", c)
-	}
-	close(done)
-	time.Sleep(50 * time.Millisecond)
-	if c := atomic.LoadInt32(&backend.active); c != 0 {
-		t.Fatalf("expected active=0 after request, got %d", c)
-	}
+        go makeRequest(lb)
+        time.Sleep(50 * time.Millisecond)
+        c := atomic.LoadInt32(&backend.active)
+        if c != 1 {
+                t.Fatalf("expected active=1 during request, got %d", c)
+        }
+        t.Logf("active connections during request: %d", c)
+        close(done)
+        time.Sleep(50 * time.Millisecond)
+        c = atomic.LoadInt32(&backend.active)
+        if c != 0 {
+                t.Fatalf("expected active=0 after request, got %d", c)
+        }
+        t.Logf("active connections after request: %d", c)
 }
 
 func TestLoadBalancerDistribution(t *testing.T) {
