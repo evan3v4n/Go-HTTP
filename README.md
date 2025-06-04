@@ -17,4 +17,3 @@ By default the server listens on `:8080` and proxies requests to two local backe
 ./app -addr :9090 -backends http://srv1:8081,http://srv2:8082,http://srv3:8083 -k 3
 ```
 
-Run a few HTTP servers on the listed ports to test the load balancer.
