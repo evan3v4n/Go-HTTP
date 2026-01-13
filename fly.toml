@@ -1,0 +1,26 @@
+# fly.toml - Fly.io deployment configuration
+# Deploy with: fly launch (first time) or fly deploy (updates)
+
+app = "go-http-server"
+primary_region = "sjc"  # San Jose - change to nearest: lax, sea, ord, iad, etc.
+
+[build]
+
+[env]
+  SERVER_PORT = ":8080"
+  STATIC_FILES_PATH = "./frontend/dist"
+  LOG_FILE_PATH = "/app/logs.txt"
+  NUM_WORKERS = "4"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1
+
