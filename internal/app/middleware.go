@@ -43,8 +43,9 @@ func (rw *responseWriter) Flush() {
 // It generates a unique request ID and records timing information.
 func (s *Server) LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Skip logging for static files and SSE (long-lived connections)
-		if isStaticFile(r.URL.Path) || r.URL.Path == "/events" {
+		// Skip logging for static files, SSE, and high-frequency monitoring endpoints
+		if isStaticFile(r.URL.Path) || r.URL.Path == "/events" ||
+			r.URL.Path == "/stats" || r.URL.Path == "/queue-status" || r.URL.Path == "/health" {
 			next.ServeHTTP(w, r)
 			return
 		}
